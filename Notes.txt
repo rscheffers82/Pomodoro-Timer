@@ -1,0 +1,51 @@
+FCC assignment location is:
+https://www.freecodecamp.com/challenges/build-a-pomodoro-clock
+
+Example: https://codepen.io/FreeCodeCamp/full/aNyxXR/
+
+Certificate: Front-end Developer
+Level: Advanced
+
+=== { User stories } ===
+- I can start a 25 minute pomodoro, and the timer will go off once 25 minutes has elapsed.
+- I can reset the clock for my next pomodoro.
+- I can customize the length of each pomodoro.
+
+=== { Notes before startingn } ===
+
+=== { To-do list } ===
+
+- create flow of the app
+	- initial state
+	- global vars, workTime vs breakTime
+	- user input
+- which display methods to use (html / canvas);
+- understand how timers work
+- build UI
+- copy all code to codepen
+- check cross browser compatibility
+
+=== { Build notes } ===
+
+Initialise
+	worktime = 25 minutes
+	breaktime = 5 minutes
+	awaiting click to start
+
+Click
+	Timer is started
+	Display the time remaining / hour glass filling up.
+
+Click again
+	Timer is stopped
+
+Reset
+	vars are cleared
+
+Layout
+	Rectangle screen 
+	circle in the middle, top, slowely walking and filling itself
+
+Fill-options
+	div, increasing / decreasing it's height
+	canvas drawing, circle
