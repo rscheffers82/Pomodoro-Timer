@@ -1,7 +1,7 @@
 /* Stylesheet for ... App */
 
 body {
-  background: #aaaaaa;
+  background-color: #aaaaaa;
   color: black;
 }
 .wrapper {
@@ -80,4 +80,92 @@ body {
   z-index: 1;
   font-size: 5em;
   color: #222223;
+}
+
+/* Cross browser slider styling generated with http://danielstern.ca/range.css/?ref=css-tricks# */
+
+input[type=range].choice {
+  -webkit-appearance: none;
+  width: 300px;
+  margin: 0 auto;
+}
+input[type=range].choice:focus {
+  outline: none;
+}
+input[type=range].choice::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 10px;
+  border: 1px solid #010101;
+}
+input[type=range].choice::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7.5px;
+}
+input[type=range].choice:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+input[type=range].choice::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 10px;
+  border: 1px solid #010101;
+}
+input[type=range].choice::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range].choice::-ms-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range].choice::-ms-fill-lower {
+  background: #2a6495;
+  border: 1px solid #010101;
+  border-radius: 20px;
+  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range].choice::-ms-fill-upper {
+  background: #3071a9;
+  border: 1px solid #010101;
+  border-radius: 20px;
+  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range].choice::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 15px;
+  width: 15px;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 2px;
+}
+input[type=range].choice:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range].choice:focus::-ms-fill-upper {
+  background: #367ebd;
 }

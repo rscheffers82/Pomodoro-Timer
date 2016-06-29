@@ -4,34 +4,62 @@ $( document ).ready(function() {
 
 });
 
-var drawTop = function(lwidth, strokeStyle, fillStyle){
+var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
 	c = document.querySelector('#c');
 	//if ( !c.getContext ) console.log('canvas not selected'); return;
 	var ctx = c.getContext('2d');
+	ctx.save();
+	//degrees = 45;
+	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
+	ctx.rotate(degrees * Math.PI / 180);
+	ctx.translate(-200, -200);
+
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
+
+	/* adding shadow
+  	ctx.shadowOffsetX = 5;
+  	ctx.shadowOffsetY = 5;
+  	ctx.shadowBlur = 10;
+  	ctx.shadowColor = "DarkGoldenRod";
+	*/
+	
 	ctx.beginPath();
 	ctx.moveTo(100,100);
 	ctx.lineTo(100,50);
 	ctx.lineTo(300,50);
 	ctx.lineTo(300,100);
 	ctx.arc(200,98,100,0,Math.PI,false); //middle of the circle (200)
+	ctx.closePath();
 	if (fillStyle) {
         ctx.fillStyle = fillStyle;
         ctx.fill();
     }
 	ctx.stroke();
-	ctx.closePath();
+	ctx.restore();
 /*
 	//ctx.fill();
 	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
 */
  }
-var drawBottom = function(lwidth, strokeStyle, fillStyle){
+var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
 	c = document.querySelector('#c');
 	var ctx = c.getContext('2d');
+	ctx.save();
+	//degrees = 45;
+	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
+	ctx.rotate(degrees * Math.PI / 180);
+	ctx.translate(-200, -200);	
+
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
+
+	/* adding shadow
+  	ctx.shadowOffsetX = 5;
+  	ctx.shadowOffsetY = 5;
+  	ctx.shadowBlur = 10;
+  	ctx.shadowColor = "DarkGoldenRod";	
+	 */
 	ctx.beginPath();
 	ctx.lineTo(100,300);
 	ctx.lineTo(100,350);
@@ -44,6 +72,7 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle){
     }
 	ctx.stroke();
 	ctx.closePath();
+	ctx.restore();
 }
 
 var drawSand = function(fillStyle){
@@ -54,6 +83,20 @@ var drawSand = function(fillStyle){
 }
 
 var rotateTimer = function(degrees){
+	var fillStyle = '#fafafc';
+	var strokeStyle = '#2222aa';
+	c = document.querySelector('#c');
+	var ctx = c.getContext('2d');
+	ctx.clearRect(0,0, 400, 400);
+
+	drawTop(7, '#2222aa', fillStyle, degrees);
+	drawTop(3, '#fafafc', fillStyle, degrees);
+
+	fillStyle = '#CBBD99';
+	strokeStyle = '#fafafc';
+	drawBottom(7, '#2222aa', fillStyle, degrees);
+	drawBottom(3, '#fafafc', fillStyle, degrees);
+	/*
 	c = document.querySelector('#c');
 	ctx = c.getContext('2d');
 	ctx.clearRect(0,0, 400, 400);
@@ -68,23 +111,10 @@ var rotateTimer = function(degrees){
 	ctx.strokeRect(100,50,200,300);
 	//ctx.restore();
 	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
-	//ctx.width = ctx.width;
+	//ctx.width = ctx.width;*/
 }
 
-
-var fillStyle = '#CBBD99';
-var strokeStyle = '#2222aa';
-//drawTop(7, '#2222aa', fillStyle);
-//drawTop(3, '#fafafc', fillStyle);
-
-fillStyle = '#fafafc';
-var strokeStyle = '#fafafc';
-//drawBottom(7, '#2222aa', fillStyle);
-//drawBottom(3, '#fafafc', fillStyle);
-
-//drawSand('#CBBD99');
-
-var work = window.setInterval(working, 20);
+var work = window.setInterval(working, 1);
 var degrees = 0;
 
 function working(){
@@ -95,6 +125,17 @@ function working(){
  	console.log('rotate:', degrees);
  	if ( degrees >= 180 ) clearInterval(work);
  }
+
+
+
+
+
+
+
+
+
+
+
 
 
 // CanvasRenderingContext2D.isPointInPath() could be used for an onclick event to stop the timer

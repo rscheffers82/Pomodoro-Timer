@@ -49,3 +49,23 @@ Layout
 Fill-options
 	div, increasing / decreasing it's height
 	canvas drawing, circle
+
+resources:
+Only draw in a certani area using clip();
+usage:
+draw a shape, clip it.
+optional save the canvas state, ctx.save(); // paths are saved
+Anything that follows now is drawn only within the clipping area
+Source: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
+
+Animation of the timer
+
+User for user interaction (e.g. draw sand, user wants to stop)
+setInterval(function, delay)
+
+User the below for no user interaction:	(changing the sandTimer)
+requestAnimationFrame(callback)
+
+Technologies used
+HTML Canvas
+HTML5, range and color inputs

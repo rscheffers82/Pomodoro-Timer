@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Your app Name</title>
+	<title>Pomodoro Timer</title>
 <!-- Required meta tags always come first -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,7 +22,9 @@ http://colintoh.com/blog/display-table-anti-hero
 	<div class="main">
 		<div class="box content">
 			<div class="pomBox">
+				<input type="range" id="workTime" class="choice" min="0" max="60" step="1" value="25">
 				<canvas id='c' height='400' width='400'></canvas>
+				<input type="range" id="breakTime" class="choice"  min="0" max="60" step="1" value="5">
 				<div id="result"></div>
 			</div>
 		</div>
