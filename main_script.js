@@ -3,27 +3,6 @@ $( document ).ready(function() {
  
 
 });
-/*
-var work = window.setInterval(working, 1000);
-
-function working(){
- 	var count = 0;
-
- 	var result = document.getElementById('result');
- 	result.textContent = Number(result.textContent) + 1;
- 	console.log('added');
- }
-
-
-
-
-
-*/
-
-
-
-
-
 
 var drawTop = function(lwidth, strokeStyle, fillStyle){
 	c = document.querySelector('#c');
@@ -66,34 +45,58 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle){
 	ctx.stroke();
 	ctx.closePath();
 }
+
 var drawSand = function(fillStyle){
 	c = document.querySelector('#c');
 	ctx = c.getContext('2d');
 	ctx.fillStyle = fillStyle;
 	ctx.fillRect(195,195,10,155);
 }
-var rotateTimer = function(){
+
+var rotateTimer = function(degrees){
 	c = document.querySelector('#c');
 	ctx = c.getContext('2d');
-	//ctx.translate();
-	ctx.rotate(45 * Math.PI / 180);
-
-	ctx.restore();
+	ctx.clearRect(0,0, 400, 400);
+	ctx.lineWidth = 2;
+	ctx.strokeStyle = '#222223';	
+	ctx.strokeRect(100,50,200,300);
+	//ctx.save();
+	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
+	ctx.rotate(degrees * Math.PI / 180);
+	ctx.translate(-200, -200);					// go back to the zero point
+	ctx.strokeStyle = '#fafafc';
+	ctx.strokeRect(100,50,200,300);
+	//ctx.restore();
+	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
+	//ctx.width = ctx.width;
 }
 
 
 var fillStyle = '#CBBD99';
 var strokeStyle = '#2222aa';
-drawTop(7, '#2222aa', fillStyle);
-drawTop(3, '#fafafc', fillStyle);
+//drawTop(7, '#2222aa', fillStyle);
+//drawTop(3, '#fafafc', fillStyle);
 
 fillStyle = '#fafafc';
 var strokeStyle = '#fafafc';
-drawBottom(7, '#2222aa', fillStyle);
-drawBottom(3, '#fafafc', fillStyle);
+//drawBottom(7, '#2222aa', fillStyle);
+//drawBottom(3, '#fafafc', fillStyle);
 
-drawSand('#CBBD99');
-rotateTimer();
+//drawSand('#CBBD99');
+
+var work = window.setInterval(working, 20);
+var degrees = 0;
+
+function working(){
+ 	var result = document.getElementById('result');
+ 	//result.textContent = Number(result.textContent) + 1;
+ 	degrees += 1;
+ 	rotateTimer(degrees);
+ 	console.log('rotate:', degrees);
+ 	if ( degrees >= 180 ) clearInterval(work);
+ }
+
+
 // CanvasRenderingContext2D.isPointInPath() could be used for an onclick event to stop the timer
 // fill animation: http://stackoverflow.com/questions/23460873/how-can-i-fill-canvas-shape-with-animation
 // jsfiddle: http://jsfiddle.net/jM4hW/18/
