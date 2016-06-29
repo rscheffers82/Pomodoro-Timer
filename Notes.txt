@@ -15,15 +15,28 @@ Level: Advanced
 
 === { To-do list } ===
 
-- create flow of the app
-	- initial state
-	- global vars, workTime vs breakTime
-	- user input
-- which display methods to use (html / canvas);
-- understand how timers work
+v create flow of the app
+	v initial state
+	v global vars, workTime vs breakTime
+	v user input
+v Canvas display Q: which display methods to use (html / canvas);
+v understand how timers work
 - build UI
+	- slim timer
+	- empty top, fill bottom
+
+- determine structure in how to build the app
+	model, view, viewmodel
 - copy all code to codepen
 - check cross browser compatibility
+
+=== [ flow of the app ] ===
+- initialise the start state of the app
+- onclick timer turns and sand starts flowing
+- in the loop, top part goes down, bottom part goes up
+- full, timer automatically turns break time starts
+- if continues loop is on, the app loops back to the same trigger as the onclick event
+- else stop
 
 === { Build notes } ===
 
