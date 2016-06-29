@@ -5,9 +5,6 @@ $( document ).ready(function() {
 });
 
 var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
-	c = document.querySelector('#c');
-	//if ( !c.getContext ) console.log('canvas not selected'); return;
-	var ctx = c.getContext('2d');
 	ctx.save();
 	//degrees = 45;
 	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
@@ -43,8 +40,8 @@ var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
 */
  }
 var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
-	c = document.querySelector('#c');
-	var ctx = c.getContext('2d');
+	//c = document.querySelector('#c');
+	//var ctx = c.getContext('2d');
 	ctx.save();
 	//degrees = 45;
 	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
@@ -130,10 +127,9 @@ function working(){
  }
 
 
-
-
-
-
+c = document.querySelector('#c');
+//if ( !c.getContext ) console.log('canvas not selected'); return;
+var ctx = c.getContext('2d');
 
 
 
