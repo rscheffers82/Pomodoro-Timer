@@ -72,7 +72,10 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
     }
 	ctx.stroke();
 	ctx.closePath();
+	ctx.fillStyle = '#fafafc';
+	ctx.fillRect(195,197,14,6);
 	ctx.restore();
+
 }
 
 var drawSand = function(fillStyle){
