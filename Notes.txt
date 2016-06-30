@@ -22,10 +22,12 @@ v create flow of the app
 v Canvas display Q: which display methods to use (html / canvas);
 v understand how timers work
 - build UI
-	- slim timer
-	- empty top, fill bottom
+	v slim timer
+	- input range set to 5 and 25 upon load
+	- empty top, fill bottom (functions)
 
 - determine structure in how to build the app
+	- build sandtimer component with functions to work it
 	model, view, viewmodel
 - copy all code to codepen
 - check cross browser compatibility

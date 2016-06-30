@@ -7,7 +7,7 @@ $( document ).ready(function() {
 // global vars for the canvas
 var c;
 var ctx
-var degrees = -1;				// used for rotating goes to 0 after the initial call
+var degrees = 0;				// used for rotating goes to 0 after the initial call
 var animation180;
 var raf;
 c = document.querySelector('#c');
@@ -61,11 +61,12 @@ var drawSand = function(fillStyle){
 	//ctx.fill();
 }
 
-function rotateSandTimer(top, bottom){
+function rotateSandTimer(init){
  	//var result = document.getElementById('result');
  	var fillStyle;
+ 	var top;
+ 	var bottom;
  	//result.textContent = Number(result.textContent) + 1;
- 	degrees += 10;
  	
 	ctx.clearRect(0, 0, 400, 400);
 	ctx.save();
@@ -88,15 +89,33 @@ function rotateSandTimer(top, bottom){
 	ctx.restore();
 
  	//console.log('rotate:', degrees);
- 	//if ( degrees >= 180 ) clearInterval(animation180);
+ 	degrees += 10;
+ 	if ( degrees > 180 ) clearInterval(animation180);
  	//rotateSandTimer(top,bottom); //clearInterval(rotate);
  }
 
  // event handlers
 
 $('#c').click(function(){
+	degrees = 0;
+	clearInterval(animation180);
 	animation180 = window.setInterval(rotateSandTimer, 50);
 });
+
+$('#wt').on('input', function(){
+	$('.worktime').text(this.value);
+});
+
+$('#bt').on('input', function(){
+	$('.breaktime').text(this.value);
+});
+
+//init values
+$('#wt').defaultValue = 25;
+$('#bt').defaultValue = 5;
+// initial draw at 0 degrees
+rotateSandTimer();
+
 
 //animation180 = window.setInterval(rotateSandTimer, 50);
 /*

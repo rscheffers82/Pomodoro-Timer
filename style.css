@@ -1,7 +1,8 @@
 /* Stylesheet for ... App */
 
 body {
-  background-color: #aaaaaa;
+  background-image: 
+    linear-gradient(#aaaaaa, #2222ff);
   color: black;
 }
 .wrapper {
@@ -63,15 +64,20 @@ body {
 
 /* === Custom styling depending on the project === */ 
 
-.pomBox{
-  position: relative;
+.content{
+  vertical-align: top;
+  margin: 0 auto;
 }
 
-#c {
-  position: relative;
-  z-index: 0;
+.label{
+  display: block;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+canvas {
   border: 1px solid #222223;
-  padding: 5px;
+  margin: 10px 0;
   border-radius: 0%;
 }
 
