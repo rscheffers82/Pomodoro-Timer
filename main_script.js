@@ -8,7 +8,7 @@ $( document ).ready(function() {
 var c;
 var ctx
 var degrees = -1;				// used for rotating goes to 0 after the initial call
-var rotate = 0;
+var animation180;
 var raf;
 c = document.querySelector('#c');
 if ( !c.getContext ) error('no canvas');	// break script when canvas s not supported or can be found
@@ -62,24 +62,24 @@ var drawSand = function(fillStyle){
 }
 
 function rotateSandTimer(top, bottom){
- 	var result = document.getElementById('result');
+ 	//var result = document.getElementById('result');
  	var fillStyle;
  	//result.textContent = Number(result.textContent) + 1;
- 	degrees += 1;
+ 	degrees += 10;
  	
 	ctx.clearRect(0, 0, 400, 400);
 	ctx.save();
-	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200.
+	ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
 	ctx.rotate(degrees * Math.PI / 180);
 	ctx.translate(-200, -200);
 
-	fillStyle = top 								// fill color for the upper part of the sand timer'#fafafc';
-	drawTop(7, '#2222aa', fillStyle, degrees);
-	drawTop(3, '#fafafc', fillStyle, degrees);
+	//fillStyle = top;								// fill color for the upper part of the sand timer'#fafafc';
+	drawTop(7, '#2222aa', top, degrees);
+	drawTop(3, '#fafafc', top, degrees);
 	
-	fillStyle = bottom 								// fill color for the bottom part of the sand timer //'#CBBD99';
-	drawBottom(7, '#2222aa', fillStyle, degrees);
-	drawBottom(3, '#fafafc', fillStyle, degrees);
+	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
+	drawBottom(7, '#2222aa', bottom, degrees);
+	drawBottom(3, '#fafafc', bottom, degrees);
 	
 	// draw the opening	between the top and bottom
 	ctx.fillStyle = '#fafafc';
@@ -87,18 +87,28 @@ function rotateSandTimer(top, bottom){
 	//drawSand(fillStyle);
 	ctx.restore();
 
- 	console.log('rotate:', degrees);
- 	//if ( degrees <= 180 ) 
- 	rotateSandTimer(top,bottom); //clearInterval(rotate);
+ 	//console.log('rotate:', degrees);
+ 	//if ( degrees >= 180 ) clearInterval(animation180);
+ 	//rotateSandTimer(top,bottom); //clearInterval(rotate);
  }
 
  // event handlers
 
 $('#c').click(function(){
-
+	animation180 = window.setInterval(rotateSandTimer, 50);
 });
 
-	raf = window.requestAnimationFrame(rotateSandTimer('#fafafc','#CBBD99'));
+//animation180 = window.setInterval(rotateSandTimer, 50);
+/*
+function working(){
+ 	var result = document.getElementById('result');
+ 	//result.textContent = Number(result.textContent) + 1;
+ 	degrees += 1;
+ 	rotateTimer(degrees);
+ 	console.log('rotate:', degrees);
+ 	if ( degrees >= 180 ) clearInterval(work);
+ }
+*/
 //rotate = window.setInterval(rotateSandTimer('#fafafc','#CBBD99'), 1);
 
 // CanvasRenderingContext2D.isPointInPath() could be used for an onclick event to stop the timer
