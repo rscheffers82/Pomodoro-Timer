@@ -61,27 +61,40 @@ var drawTopSand = function(fillStyle){
 	//ctx.fill();
 }
 
-var startSandTimer = function(){
-	var top = 'rgba(255,255,255,0.0)';
+function startSandTimer(){
+	ctx.save();
+	clearCanvas();
 	// line thickness, stroke, fill
-	drawTop(12, '#2222aa');						// outer layer
-	drawTop(10, '#fafafc', '#fafafc');			// inner white layer, sand separator
+	drawTop(10, '#222223');						// outer layer
+	drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
 	ctx.save();									// save state so we can go back to it after clipping
 	ctx.clip();
-	// draw sand
-	// 0, 50 -> 50 is the top of the sand timer, 150 down is the bottom of the top glass
-	ctx.fillStyle = 'rgba(100,150,255, 1)';
+	
+	// draw sand in the top
+	ctx.fillStyle = '#d2d233';
 	//ctx.fillRect(0,90,400,200);
-	ctx.fillRect(0,100,400,150);			// 100% full
+	ctx.fillRect(0,50,400,150);			// 100% full
 	ctx.restore();	
-	drawBottom(12, '#2222aa');
-	drawBottom(10, '#fafafc', '#fafafc');
+
+	drawBottom(10, '#222223');
+	drawBottom(7, '#fafafc', '#fafafc');
 	ctx.save();
 	ctx.clip();
-	ctx.fillStyle = 'rgba(100,150,255, 1)';
-	ctx.fillRect(0,250,400,150);
-	//ctx.fillRect(0,200,400,150);			// 100% full
+
+	// draw sand in the bottom
+	ctx.fillStyle = '#d2d233';
+	//ctx.fillRect(0,250,400,150);
+	ctx.fillRect(0,200,400,150);			// 100% full
+
+	// draw the opening	between the top and bottom
 	ctx.restore();
+	ctx.fillStyle = '#fafafc';
+	ctx.fillRect(186, 196, 28, 8);
+	ctx.fillStyle = '#d2d233';
+	ctx.fillRect(193, 195, 14, 155);
+	ctx.restore();
+ 	degrees += 10;
+ 	if ( degrees > 180 ) clearInterval(animation180);
 }
 
  function clearCanvas(){
@@ -91,40 +104,15 @@ var startSandTimer = function(){
 	ctx.translate(-200, -200);
 }
 
-function rotateSandTimer(){
- 	//var result = document.getElementById('result');
- 	var fillStyle;
- 	var top;
- 	var bottom;
- 	//result.textContent = Number(result.textContent) + 1;
- 	ctx.save();
- 	clearCanvas();
-
-	//fillStyle = top;								// fill color for the upper part of the sand timer'#fafafc';
-	drawTop(7, '#2222aa', top);
-	drawTop(3, '#fafafc', top);
-	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
-	drawBottom(7, '#2222aa', bottom);
-	drawBottom(3, '#fafafc', bottom);
-	
-	// draw the opening	between the top and bottom
-	ctx.fillStyle = '#fafafc';
-	ctx.fillRect(195,197,15,6);
-	//drawSand(fillStyle);
-	ctx.restore();
-
- 	//console.log('rotate:', degrees);
- 	degrees += 10;
- 	if ( degrees > 180 ) clearInterval(animation180);
- 	//rotateSandTimer(top,bottom); //clearInterval(rotate);
- }
-
- // event handlers
+// event handlers
 
 $('#c').click(function(){
+	// first click, start the timer
 	degrees = 0;
 	clearInterval(animation180);
-	animation180 = window.setInterval(rotateSandTimer, 50);
+	animation180 = window.setInterval(startSandTimer, 50);
+
+	// 2nd click, pauze the timer
 });
 
 $('#wt').on('input', function(){
@@ -140,7 +128,7 @@ $('#wt').defaultValue = 25;
 $('#bt').defaultValue = 5;
 // initial draw at 0 degrees
 
-rotateSandTimer();
+//rotateSandTimer();
 startSandTimer();
 
 //animation180 = window.setInterval(rotateSandTimer, 50);
