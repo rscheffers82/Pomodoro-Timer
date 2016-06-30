@@ -82,3 +82,9 @@ requestAnimationFrame(callback)
 Technologies used
 HTML Canvas
 HTML5, range and color inputs
+
+clipping paths article
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
+
+canvas tutorial from Mozilla developers
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial

@@ -4,59 +4,44 @@ $( document ).ready(function() {
 
 });
 
-var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
-	ctx.save();
-	//degrees = 45;
-	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
-	ctx.rotate(degrees * Math.PI / 180);
-	ctx.translate(-200, -200);
+// global vars for the canvas
+var c;
+var ctx
+var degrees = -1;				// used for rotating goes to 0 after the initial call
+var rotate = 0;
+var raf;
+c = document.querySelector('#c');
+if ( !c.getContext ) error('no canvas');	// break script when canvas s not supported or can be found
 
+// assign canvas context, and scale appropriately
+ctx = c.getContext('2d');
+ctx.scale(0.8,0.8);
+ctx.translate(-15,-15);
+
+var error = function(message){
+	console.log(message);
+	// display error on screen 
+}
+
+// draw functions
+var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
-
-	/* adding shadow
-  	ctx.shadowOffsetX = 5;
-  	ctx.shadowOffsetY = 5;
-  	ctx.shadowBlur = 10;
-  	ctx.shadowColor = "DarkGoldenRod";
-	*/
-	
 	ctx.beginPath();
 	ctx.moveTo(100,100);
 	ctx.lineTo(100,50);
 	ctx.lineTo(300,50);
 	ctx.lineTo(300,100);
 	ctx.arc(200,98,100,0,Math.PI,false); //middle of the circle (200)
-	ctx.closePath();
 	if (fillStyle) {
         ctx.fillStyle = fillStyle;
         ctx.fill();
     }
 	ctx.stroke();
-	ctx.restore();
-/*
-	//ctx.fill();
-	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
-*/
  }
 var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
-	//c = document.querySelector('#c');
-	//var ctx = c.getContext('2d');
-	ctx.save();
-	//degrees = 45;
-	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
-	ctx.rotate(degrees * Math.PI / 180);
-	ctx.translate(-200, -200);	
-
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
-
-	/* adding shadow
-  	ctx.shadowOffsetX = 5;
-  	ctx.shadowOffsetY = 5;
-  	ctx.shadowBlur = 10;
-  	ctx.shadowColor = "DarkGoldenRod";	
-	 */
 	ctx.beginPath();
 	ctx.lineTo(100,300);
 	ctx.lineTo(100,350);
@@ -68,74 +53,53 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
         ctx.fill();
     }
 	ctx.stroke();
-	ctx.closePath();
-	ctx.fillStyle = '#fafafc';
-	ctx.fillRect(195,197,14,6);
-	ctx.restore();
-
 }
 
 var drawSand = function(fillStyle){
-	c = document.querySelector('#c');
-	ctx = c.getContext('2d');
-	ctx.fillStyle = fillStyle;
-	ctx.fillRect(195,195,10,155);
+	//ctx.fillStyle = '222223';//fillStyle;
+	ctx.fillRect(197,195,11,154);
+	//ctx.fill();
 }
 
-var rotateTimer = function(degrees){
-	var fillStyle = '#fafafc';
-	var strokeStyle = '#2222aa';
-	c = document.querySelector('#c');
-	var ctx = c.getContext('2d');
-	ctx.clearRect(0,0, 400, 400);
-
-	drawTop(7, '#2222aa', fillStyle, degrees);
-	drawTop(3, '#fafafc', fillStyle, degrees);
-
-	fillStyle = '#CBBD99';
-	strokeStyle = '#fafafc';
-	drawBottom(7, '#2222aa', fillStyle, degrees);
-	drawBottom(3, '#fafafc', fillStyle, degrees);
-	/*
-	c = document.querySelector('#c');
-	ctx = c.getContext('2d');
-	ctx.clearRect(0,0, 400, 400);
-	ctx.lineWidth = 2;
-	ctx.strokeStyle = '#222223';	
-	ctx.strokeRect(100,50,200,300);
-	//ctx.save();
-	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200
-	ctx.rotate(degrees * Math.PI / 180);
-	ctx.translate(-200, -200);					// go back to the zero point
-	ctx.strokeStyle = '#fafafc';
-	ctx.strokeRect(100,50,200,300);
-	//ctx.restore();
-	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
-	//ctx.width = ctx.width;*/
-}
-
-var work = window.setInterval(working, 1);
-var degrees = 0;
-
-function working(){
+function rotateSandTimer(top, bottom){
  	var result = document.getElementById('result');
+ 	var fillStyle;
  	//result.textContent = Number(result.textContent) + 1;
  	degrees += 1;
- 	rotateTimer(degrees);
+ 	
+	ctx.clearRect(0, 0, 400, 400);
+	ctx.save();
+	ctx.translate(200, 200);					// go to the center of the canvas, x,y 200, 200.
+	ctx.rotate(degrees * Math.PI / 180);
+	ctx.translate(-200, -200);
+
+	fillStyle = top 								// fill color for the upper part of the sand timer'#fafafc';
+	drawTop(7, '#2222aa', fillStyle, degrees);
+	drawTop(3, '#fafafc', fillStyle, degrees);
+	
+	fillStyle = bottom 								// fill color for the bottom part of the sand timer //'#CBBD99';
+	drawBottom(7, '#2222aa', fillStyle, degrees);
+	drawBottom(3, '#fafafc', fillStyle, degrees);
+	
+	// draw the opening	between the top and bottom
+	ctx.fillStyle = '#fafafc';
+	ctx.fillRect(195,197,15,6);
+	//drawSand(fillStyle);
+	ctx.restore();
+
  	console.log('rotate:', degrees);
- 	if ( degrees >= 180 ) clearInterval(work);
+ 	//if ( degrees <= 180 ) 
+ 	rotateSandTimer(top,bottom); //clearInterval(rotate);
  }
 
+ // event handlers
 
-c = document.querySelector('#c');
-//if ( !c.getContext ) console.log('canvas not selected'); return;
-var ctx = c.getContext('2d');
+$('#c').click(function(){
 
+});
 
-
-
-
-
+	raf = window.requestAnimationFrame(rotateSandTimer('#fafafc','#CBBD99'));
+//rotate = window.setInterval(rotateSandTimer('#fafafc','#CBBD99'), 1);
 
 // CanvasRenderingContext2D.isPointInPath() could be used for an onclick event to stop the timer
 // fill animation: http://stackoverflow.com/questions/23460873/how-can-i-fill-canvas-shape-with-animation
@@ -205,3 +169,16 @@ function drawContainer(linewidth, strokestyle, fillstyle) {
 }
 
 */
+
+/*
+	//ctx.fill();
+	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset the position back to 0,0
+*/
+
+
+	/* adding shadow
+  	ctx.shadowOffsetX = 5;
+  	ctx.shadowOffsetY = 5;
+  	ctx.shadowBlur = 10;
+  	ctx.shadowColor = "DarkGoldenRod";
+	*/
