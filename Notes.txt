@@ -23,7 +23,7 @@ v Canvas display Q: which display methods to use (html / canvas);
 v understand how timers work
 - build UI
 	v slim timer
-	- input range set to 5 and 25 upon load
+	v input range set to 5 and 25 upon load
 	- empty top, fill bottom (functions)
 
 - determine structure in how to build the app
@@ -103,7 +103,7 @@ draw function
 	drawTop(7, '#2222aa', top, degrees);
 	drawTop(3, '#fafafc', top, degrees);
 	
-	
+
 	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
 	drawBottom(7, '#2222aa', bottom, degrees);
 	drawBottom(3, '#fafafc', bottom, degrees);

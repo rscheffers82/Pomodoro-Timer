@@ -9,11 +9,10 @@ var c;
 var ctx
 var degrees = 0;				// used for rotating goes to 0 after the initial call
 var animation180;
-var raf;
 c = document.querySelector('#c');
 if ( !c.getContext ) error('no canvas');	// break script when canvas s not supported or can be found
 
-// assign canvas context, and scale appropriately
+// assign canvas context, and scale appropriately, canvas init
 ctx = c.getContext('2d');
 ctx.scale(0.8,0.8);
 ctx.translate(-15,-15);
@@ -53,43 +52,37 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle){
         ctx.fill();
     }
 	ctx.stroke();
+	// draw the opening	between the top and bottom
+	ctx.fillStyle = '#fafafc';
+	ctx.fillRect(186, 196, 28, 8);
 }
 
-var drawTopSand = function(fillStyle){
-	//ctx.fillStyle = '222223';//fillStyle;
-	//ctx.fillRect(197,195,11,154);
-	//ctx.fill();
-}
-
-function startSandTimer(){
+function render(){
 	ctx.save();
+
 	clearCanvas();
 	// line thickness, stroke, fill
 	drawTop(10, '#222223');						// outer layer
 	drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
 	ctx.save();									// save state so we can go back to it after clipping
-	ctx.clip();
-	
+
 	// draw sand in the top
+	ctx.clip();
 	ctx.fillStyle = '#d2d233';
-	//ctx.fillRect(0,90,400,200);
 	ctx.fillRect(0,50,400,150);			// 100% full
 	ctx.restore();	
 
 	drawBottom(10, '#222223');
 	drawBottom(7, '#fafafc', '#fafafc');
 	ctx.save();
-	ctx.clip();
 
 	// draw sand in the bottom
+	ctx.clip();
 	ctx.fillStyle = '#d2d233';
-	//ctx.fillRect(0,250,400,150);
 	ctx.fillRect(0,200,400,150);			// 100% full
-
-	// draw the opening	between the top and bottom
 	ctx.restore();
-	ctx.fillStyle = '#fafafc';
-	ctx.fillRect(186, 196, 28, 8);
+
+	// draw falling sand
 	ctx.fillStyle = '#d2d233';
 	ctx.fillRect(193, 195, 14, 155);
 	ctx.restore();
@@ -110,7 +103,7 @@ $('#c').click(function(){
 	// first click, start the timer
 	degrees = 0;
 	clearInterval(animation180);
-	animation180 = window.setInterval(startSandTimer, 50);
+	animation180 = window.setInterval(render, 50);
 
 	// 2nd click, pauze the timer
 });
@@ -129,7 +122,7 @@ $('#bt').defaultValue = 5;
 // initial draw at 0 degrees
 
 //rotateSandTimer();
-startSandTimer();
+render();
 
 //animation180 = window.setInterval(rotateSandTimer, 50);
 /*
