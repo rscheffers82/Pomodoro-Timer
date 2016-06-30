@@ -24,7 +24,7 @@ var error = function(message){
 }
 
 // draw functions
-var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
+var drawTop = function(lwidth, strokeStyle, fillStyle){
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
 	ctx.beginPath();
@@ -39,7 +39,7 @@ var drawTop = function(lwidth, strokeStyle, fillStyle,degrees){
     }
 	ctx.stroke();
  }
-var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
+var drawBottom = function(lwidth, strokeStyle, fillStyle){
 	ctx.lineWidth = lwidth;
 	ctx.strokeStyle = strokeStyle;
 	ctx.beginPath();
@@ -55,32 +55,57 @@ var drawBottom = function(lwidth, strokeStyle, fillStyle,degrees){
 	ctx.stroke();
 }
 
-var drawSand = function(fillStyle){
+var drawTopSand = function(fillStyle){
 	//ctx.fillStyle = '222223';//fillStyle;
-	ctx.fillRect(197,195,11,154);
+	//ctx.fillRect(197,195,11,154);
 	//ctx.fill();
 }
 
-function rotateSandTimer(init){
+var startSandTimer = function(){
+	var top = 'rgba(255,255,255,0.0)';
+	// line thickness, stroke, fill
+	drawTop(12, '#2222aa');						// outer layer
+	drawTop(10, '#fafafc', '#fafafc');			// inner white layer, sand separator
+	ctx.save();									// save state so we can go back to it after clipping
+	ctx.clip();
+	// draw sand
+	// 0, 50 -> 50 is the top of the sand timer, 150 down is the bottom of the top glass
+	ctx.fillStyle = 'rgba(100,150,255, 1)';
+	//ctx.fillRect(0,90,400,200);
+	ctx.fillRect(0,100,400,150);			// 100% full
+	ctx.restore();	
+	drawBottom(12, '#2222aa');
+	drawBottom(10, '#fafafc', '#fafafc');
+	ctx.save();
+	ctx.clip();
+	ctx.fillStyle = 'rgba(100,150,255, 1)';
+	ctx.fillRect(0,250,400,150);
+	//ctx.fillRect(0,200,400,150);			// 100% full
+	ctx.restore();
+}
+
+ function clearCanvas(){
+	ctx.clearRect(0, 0, 400, 400);
+	ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
+	ctx.rotate(degrees * Math.PI / 180);
+	ctx.translate(-200, -200);
+}
+
+function rotateSandTimer(){
  	//var result = document.getElementById('result');
  	var fillStyle;
  	var top;
  	var bottom;
  	//result.textContent = Number(result.textContent) + 1;
- 	
-	ctx.clearRect(0, 0, 400, 400);
-	ctx.save();
-	ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
-	ctx.rotate(degrees * Math.PI / 180);
-	ctx.translate(-200, -200);
+ 	ctx.save();
+ 	clearCanvas();
 
 	//fillStyle = top;								// fill color for the upper part of the sand timer'#fafafc';
-	drawTop(7, '#2222aa', top, degrees);
-	drawTop(3, '#fafafc', top, degrees);
-	
+	drawTop(7, '#2222aa', top);
+	drawTop(3, '#fafafc', top);
 	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
-	drawBottom(7, '#2222aa', bottom, degrees);
-	drawBottom(3, '#fafafc', bottom, degrees);
+	drawBottom(7, '#2222aa', bottom);
+	drawBottom(3, '#fafafc', bottom);
 	
 	// draw the opening	between the top and bottom
 	ctx.fillStyle = '#fafafc';
@@ -114,8 +139,9 @@ $('#bt').on('input', function(){
 $('#wt').defaultValue = 25;
 $('#bt').defaultValue = 5;
 // initial draw at 0 degrees
-rotateSandTimer();
 
+rotateSandTimer();
+startSandTimer();
 
 //animation180 = window.setInterval(rotateSandTimer, 50);
 /*

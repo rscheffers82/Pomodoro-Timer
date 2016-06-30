@@ -32,6 +32,8 @@ v understand how timers work
 - copy all code to codepen
 - check cross browser compatibility
 
+
+
 === [ flow of the app ] ===
 - initialise the start state of the app
 - onclick timer turns and sand starts flowing
@@ -43,16 +45,22 @@ v understand how timers work
 === { Build notes } ===
 
 Initialise
-	worktime = 25 minutes
-	breaktime = 5 minutes
+	worktime = 25 minutes (html)
+	breaktime = 5 minutes (html)
+	app vars are set
+	timer is drawn on the canvas, sand bottom.
 	awaiting click to start
 
 Click
+	disable the sliders
+	Sand timer is turned animation
 	Timer is started
-	Display the time remaining / hour glass filling up.
+	Display the time remaining by bottom glass filling up.
 
 Click again
+	enable the sliders
 	Timer is stopped
+	* slider movement, reset the timer
 
 Reset
 	vars are cleared
@@ -73,6 +81,9 @@ optional save the canvas state, ctx.save(); // paths are saved
 Anything that follows now is drawn only within the clipping area
 Source: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
+canvas tutorial from Mozilla developers
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+
 Animation of the timer
 
 User for user interaction (e.g. draw sand, user wants to stop)
@@ -85,8 +96,14 @@ Technologies used
 HTML Canvas
 HTML5, range and color inputs
 
-clipping paths article
-https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
-canvas tutorial from Mozilla developers
-https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+draw function
+
+	//fillStyle = top;								// fill color for the upper part of the sand timer'#fafafc';
+	drawTop(7, '#2222aa', top, degrees);
+	drawTop(3, '#fafafc', top, degrees);
+	
+	
+	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
+	drawBottom(7, '#2222aa', bottom, degrees);
+	drawBottom(3, '#fafafc', bottom, degrees);
