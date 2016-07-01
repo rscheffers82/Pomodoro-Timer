@@ -1,141 +1,145 @@
 // Javascript
-$( document ).ready(function() {
- 
 
+$('document').ready(function(){
+	sandTimer.init();
 });
 
-// global vars for the canvas
-var c;
-var ctx
-var degrees = 0;				// used for rotating goes to 0 after the initial call
-var animation180;
-c = document.querySelector('#c');
-if ( !c.getContext ) error('no canvas');	// break script when canvas s not supported or can be found
+var sandTimer = (function(){
+	var c;				// canvas element
+	var ctx;			// canvas context
+	var degrees = 0;	// at what angle is the sand timer
+	var animation180;	// used stopping the timer, used when 
+	var workTime;
+	var breakTime;
+		
+	return{				// public functions
+	init: function(){
+		c = document.querySelector('#c');
+		//if ( !c.getContext ) error('no canvas'); return	// break script when canvas s not supported or can be found
 
-// assign canvas context, and scale appropriately, canvas init
-ctx = c.getContext('2d');
-ctx.scale(0.8,0.8);
-ctx.translate(-15,-15);
+		// assign canvas context, and scale appropriately
+		ctx = c.getContext('2d');
+		ctx.scale(0.8,0.8);
+		ctx.translate(-15,-15);
 
-var error = function(message){
-	console.log(message);
-	// display error on screen 
-}
+	 	this.updateWorkTime(25);
+	 	this.updateBreakTime(5);
+	 	this.render();
+	 	degrees = 0;
 
-// draw functions
-var drawTop = function(lwidth, strokeStyle, fillStyle){
-	ctx.lineWidth = lwidth;
-	ctx.strokeStyle = strokeStyle;
-	ctx.beginPath();
-	ctx.moveTo(100,100);
-	ctx.lineTo(100,50);
-	ctx.lineTo(300,50);
-	ctx.lineTo(300,100);
-	ctx.arc(200,98,100,0,Math.PI,false); //middle of the circle (200)
-	if (fillStyle) {
-        ctx.fillStyle = fillStyle;
-        ctx.fill();
-    }
-	ctx.stroke();
- }
-var drawBottom = function(lwidth, strokeStyle, fillStyle){
-	ctx.lineWidth = lwidth;
-	ctx.strokeStyle = strokeStyle;
-	ctx.beginPath();
-	ctx.lineTo(100,300);
-	ctx.lineTo(100,350);
-	ctx.lineTo(300,350);
-	ctx.lineTo(300,300);
-	ctx.arc(200,302,100, 0, Math.PI, true); //middle of the circle (200)
-	if (fillStyle) {
-        ctx.fillStyle = fillStyle;
-        ctx.fill();
-    }
-	ctx.stroke();
-	// draw the opening	between the top and bottom
-	ctx.fillStyle = '#fafafc';
-	ctx.fillRect(186, 196, 28, 8);
-}
+	 },
+	 updateBreak: function(value){
 
-function render(){
-	ctx.save();
+		// draw the timer for the first time and reset the degrees
+		sandTimer.render();
+		degrees = 0;
+	},
+	error: function(message){
+		console.log(message);
+		// display error on screen 
+	},
+	 clearCanvas: function(){
+		ctx.clearRect(0, 0, 400, 400);
+		ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
+		ctx.rotate(degrees * Math.PI / 180);
+		ctx.translate(-200, -200);
+	},
+	drawTop: function(lwidth, strokeStyle, fillStyle){
+		ctx.lineWidth = lwidth;
+		ctx.strokeStyle = strokeStyle;
+		ctx.beginPath();
+		ctx.moveTo(100,100);
+		ctx.lineTo(100,50);
+		ctx.lineTo(300,50);
+		ctx.lineTo(300,100);
+		ctx.arc(200,98,100,0,Math.PI,false); //middle of the circle (200)
+		if (fillStyle) {
+       		ctx.fillStyle = fillStyle;
+       		ctx.fill();
+   		}
+		ctx.stroke();
+	},
+	drawBottom: function(lwidth, strokeStyle, fillStyle){
+		ctx.lineWidth = lwidth;
+		ctx.strokeStyle = strokeStyle;
+		ctx.beginPath();
+		ctx.lineTo(100,300);
+		ctx.lineTo(100,350);
+		ctx.lineTo(300,350);
+		ctx.lineTo(300,300);
+		ctx.arc(200,302,100, 0, Math.PI, true); //middle of the circle (200)
+		if (fillStyle) {
+   		    ctx.fillStyle = fillStyle;
+			ctx.fill();
+	    }
+		ctx.stroke();
+		// draw the opening	between the top and bottom
+		ctx.fillStyle = '#fafafc';
+		ctx.fillRect(186, 196, 28, 8);
+	},
+	render: function(){
+		ctx.save();
 
-	clearCanvas();
-	// line thickness, stroke, fill
-	drawTop(10, '#222223');						// outer layer
-	drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
-	ctx.save();									// save state so we can go back to it after clipping
+		this.clearCanvas();
+		// line thickness, stroke, fill
+		this.drawTop(10, '#222223');						// outer layer
+		this.drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
+		ctx.save();									// save state so we can go back to it after clipping
 
-	// draw sand in the top
-	ctx.clip();
-	ctx.fillStyle = '#d2d233';
-	ctx.fillRect(0,50,400,150);			// 100% full
-	ctx.restore();	
+		// draw sand in the top
+		ctx.clip();
+		ctx.fillStyle = '#d2d233';
+		ctx.fillRect(0,50,400,150);			// 100% full
+		ctx.restore();	
 
-	drawBottom(10, '#222223');
-	drawBottom(7, '#fafafc', '#fafafc');
-	ctx.save();
+		this.drawBottom(10, '#222223');
+		this.drawBottom(7, '#fafafc', '#fafafc');
+		ctx.save();
 
-	// draw sand in the bottom
-	ctx.clip();
-	ctx.fillStyle = '#d2d233';
-	ctx.fillRect(0,200,400,150);			// 100% full
-	ctx.restore();
+		// draw sand in the bottom
+		ctx.clip();
+		ctx.fillStyle = '#d2d233';
+		ctx.fillRect(0,200,400,150);			// 100% full
+		ctx.restore();
 
-	// draw falling sand
-	ctx.fillStyle = '#d2d233';
-	ctx.fillRect(193, 195, 14, 155);
-	ctx.restore();
- 	degrees += 10;
- 	if ( degrees > 180 ) clearInterval(animation180);
-}
+		// draw falling sand
+		ctx.fillStyle = '#d2d233';
+		ctx.fillRect(193, 195, 14, 155);
+		ctx.restore();
+	 	degrees += 10;
+	 	if ( degrees > 180 ) clearInterval(animation180);
+	 },
+	 updateWorkTime: function(value){
+	 	this.workTime = value;
+	 	return this.workTime;
 
- function clearCanvas(){
-	ctx.clearRect(0, 0, 400, 400);
-	ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
-	ctx.rotate(degrees * Math.PI / 180);
-	ctx.translate(-200, -200);
-}
+	 },
+	 updateBreakTime: function(value){
+	 	this.breakTime = value;
+		console.log(this.breakTime);		
+		return this.breakTime;
+	 }}
+})();
 
 // event handlers
 
 $('#c').click(function(){
 	// first click, start the timer
-	degrees = 0;
-	clearInterval(animation180);
-	animation180 = window.setInterval(render, 50);
+	//console.log(sandTimer.vars.degrees);
+	//degrees = 0;
+	//clearInterval(animation180);
+	//animation180 = window.setInterval(render, 50);
 
 	// 2nd click, pauze the timer
 });
 
 $('#wt').on('input', function(){
-	$('.worktime').text(this.value);
+	$('.worktime').text( sandTimer.updateWorkTime(this.value) );
 });
 
 $('#bt').on('input', function(){
-	$('.breaktime').text(this.value);
+	$('.breaktime').text( sandTimer.updateBreakTime(this.value) );
 });
-
-//init values
-$('#wt').defaultValue = 25;
-$('#bt').defaultValue = 5;
-// initial draw at 0 degrees
-
-//rotateSandTimer();
-render();
-
-//animation180 = window.setInterval(rotateSandTimer, 50);
-/*
-function working(){
- 	var result = document.getElementById('result');
- 	//result.textContent = Number(result.textContent) + 1;
- 	degrees += 1;
- 	rotateTimer(degrees);
- 	console.log('rotate:', degrees);
- 	if ( degrees >= 180 ) clearInterval(work);
- }
-*/
-//rotate = window.setInterval(rotateSandTimer('#fafafc','#CBBD99'), 1);
 
 // CanvasRenderingContext2D.isPointInPath() could be used for an onclick event to stop the timer
 // fill animation: http://stackoverflow.com/questions/23460873/how-can-i-fill-canvas-shape-with-animation
