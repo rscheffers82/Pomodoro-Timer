@@ -8,12 +8,12 @@ var sandTimer = (function(){
 	var c;				// canvas element
 	var ctx;			// canvas context
 	var degrees = 0;	// at what angle is the sand timer
-	var animation180;	// used stopping the timer, used when 
+	var animation180;	// timer used for rotating the timer to it's start position 
 	var workTime;
 	var breakTime;
 	
-	var loop;
-	var secondsPassed = 0;
+	var loop;			// timer, used for tracking time
+	var secondsPassed = 0;	
 	var timerRunning = false;
 	
 	// private functions
@@ -29,10 +29,11 @@ var sandTimer = (function(){
 	 }
 
 	 var clearCanvas = function(){
+		console.log('clearCanvas - degrees: ', degrees);
 		ctx.clearRect(0, 0, 400, 400);
 		ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
-		ctx.rotate(degrees * Math.PI / 180);
-		ctx.translate(-200, -200);
+		ctx.rotate(degrees * Math.PI / 180);			// rotate depending on the timer
+		ctx.translate(-200, -200);						// go back to position 0,0 > top, left
 	}
 
 	var drawTop = function(lwidth, strokeStyle, fillStyle){
@@ -68,6 +69,22 @@ var sandTimer = (function(){
 		ctx.fillStyle = '#fafafc';
 		ctx.fillRect(186, 196, 28, 8);
 	}
+	var startRotation = function() {
+		animation180 = window.setInterval(turn, 250);
+
+		function turn() {
+			console.log('degrees: ', degrees);
+			if ( degrees > 180 ) {
+				clearInterval(animation180); 
+				degrees = 0; 
+				render(0, false);				// display the initial state of the timer
+			} else{
+				render(100, true);				// 100%, rotate set to true
+				degrees++;
+			}
+		}
+	}
+
 	var render = function(fill, rotate){
 		console.log(fill);
 		clearCanvas();
@@ -96,46 +113,46 @@ var sandTimer = (function(){
 		ctx.fillRect(0, 350-fill, 400, 0+fill);	// 100% full (start 200, end 350), 0
 		ctx.restore();
 
-		// draw falling sand	
+		// draw falling sand
+		/*	
 		fill /= 1.5;
 		ctx.fillStyle = '#d2d233';
-		if ( fill === 1 ){
+		if ( !rotate && fill === 1 ){
 			console.log('fill 0');
 			var level = 0;
 			var fall = window.setInterval(fallingSand, 25);
 			function fallingSand(){
-				ctx.fillStyle = '#d2d233';
+				//ctx.fillStyle = '#d2d233';
 				ctx.fillRect(193, 195, 14, level);
 				level += 5;
 				if ( level > 155 ) window.clearInterval(fall);
 			}
-		} else if ( fill >= 100 ){
+		} else if ( !rotate && fill >= 100 ){
 			window.clearInterval(loop);			// stop the timer
-			ctx.fillStyle = '#d2d233';
+			//ctx.fillStyle = '#d2d233';
 			ctx.fillRect(193, 195, 14, 10);
 			var fall = window.setInterval(fallingSand, 200);
 			var level = 0;
 			function fallingSand(){
 				console.log('falling sand, level', level);
-				ctx.fillStyle = '#fafafc';
+				//ctx.fillStyle = '#fafafc';
 				ctx.fillRect(193, 195, 14, level);
 				level++;
-				if ( level > 7 ) window.clearInterval(fall);
+				if ( level > 7 ) {
+					window.clearInterval(fall);
+
+				}
 			}
 			//	ctx.fillRect(193, 195, 14, 155);
 			console.log('fill 100');
 			//}
-		} else if ( fill > 1 && fill < 100 ) {
+		} else if ( !rotate && fill > 1 && fill < 100 ) {
 			ctx.fillRect(193, 195, 14, 155);
 			console.log('fill ',fill);
 		}
-
+*/
 		ctx.restore();
-	 	
-	 	if ( rotate ) {
-	 		degrees += 10;
-	 		if ( degrees > 180 ) clearInterval(animation180);
-	 	}
+		if (fill === 100) startRotation();	 	
 	 }
 
 // public functions
@@ -152,8 +169,8 @@ var sandTimer = (function(){
 
 	 	this.updateWorkTime(25);
 	 	this.updateBreakTime(5);
-	 	render(0);
 	 	degrees = 0;
+	 	render(0, false);
 
 	 },
 	error: function(message){
@@ -164,13 +181,14 @@ var sandTimer = (function(){
 		function handleTimer(){
 			secondsPassed += 1;
 			render(secondsPassed);
-			//console.log(secondsPassed);
+			
+
 		}
 
 		if (!timerRunning) {
 			timerRunning = true;
 			disableSliders(true);
-			loop = window.setInterval(handleTimer, 1000);
+			loop = window.setInterval(handleTimer, 100);
 		} else 	{ 
 			timerRunning = false;
 			disableSliders(false);

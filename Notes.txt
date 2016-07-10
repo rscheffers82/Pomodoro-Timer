@@ -31,9 +31,10 @@ v determine structure in how to build the app
 	v build sandtimer component with functions to work it
 	x- model, view, viewmodel
 
-- Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours)
+v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) - STUCK! 
+- once done turn timer around, restart
 - Create overall color scheme													(2 hours)
-- Make the sandtimer look good, gradient on the Canvas 							(2 hours)
+- Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
 - fancy sand animation?															(???)
 - copy all code to codepen														(30 min)
 - check cross browser compatibility												(30 min)
