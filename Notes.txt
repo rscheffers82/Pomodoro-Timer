@@ -21,19 +21,17 @@ v create flow of the app
 	v user input
 v Canvas display Q: which display methods to use (html / canvas);
 v understand how timers work
-- build UI
+v build UI
 	v slim timer
 	v input range set to 5 and 25 upon load
-	- empty top, fill bottom (functions) vars needed + control functions		(3 hours)
 	v pause timer, disable slider bars											(1 hour)
 
 v How to deal with the timer aspect :), should have done this from the start 	(3 hours)
-
-
 v determine structure in how to build the app
 	v build sandtimer component with functions to work it
 	x- model, view, viewmodel
 
+- Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours)
 - Create overall color scheme													(2 hours)
 - Make the sandtimer look good, gradient on the Canvas 							(2 hours)
 - fancy sand animation?															(???)

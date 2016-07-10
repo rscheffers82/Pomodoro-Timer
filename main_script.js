@@ -15,6 +15,7 @@ var sandTimer = (function(){
 	var loop;
 	var secondsPassed = 0;
 	var timerRunning = false;
+	
 	// private functions
 	var disableSliders = function(disable){
 	 	if(disable){
@@ -26,12 +27,14 @@ var sandTimer = (function(){
 	 		console.log('disabled');
 	 	}
 	 }
+
 	 var clearCanvas = function(){
 		ctx.clearRect(0, 0, 400, 400);
 		ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
 		ctx.rotate(degrees * Math.PI / 180);
 		ctx.translate(-200, -200);
 	}
+
 	var drawTop = function(lwidth, strokeStyle, fillStyle){
 		ctx.lineWidth = lwidth;
 		ctx.strokeStyle = strokeStyle;
@@ -65,28 +68,9 @@ var sandTimer = (function(){
 		ctx.fillStyle = '#fafafc';
 		ctx.fillRect(186, 196, 28, 8);
 	}
+	var render = function(fill, rotate){
+		fill *= 1.5;	// 100% = 150 pixels on the canvas
 
-	return{				// public functions
-	init: function(){
-		c = document.querySelector('#c');
-		//if ( !c.getContext ) error('no canvas'); return	// break script when canvas s not supported or can be found
-
-		// assign canvas context, and scale appropriately
-		ctx = c.getContext('2d');
-		ctx.scale(0.8,0.8);
-		ctx.translate(-15,-15);
-
-	 	this.updateWorkTime(25);
-	 	this.updateBreakTime(5);
-	 	this.render();
-	 	degrees = 0;
-
-	 },
-	error: function(message){
-		console.log(message);
-		// display error on screen 
-	},
-	render: function(){
 		ctx.save();
 
 		clearCanvas();
@@ -98,7 +82,7 @@ var sandTimer = (function(){
 		// draw sand in the top
 		ctx.clip();
 		ctx.fillStyle = '#d2d233';
-		ctx.fillRect(0,50,400,150);			// 100% full
+		ctx.fillRect(0, 50+fill, 400, 150-fill);	// 100% full (start 50, end 200), 0
 		ctx.restore();	
 
 		drawBottom(10, '#222223');
@@ -108,21 +92,48 @@ var sandTimer = (function(){
 		// draw sand in the bottom
 		ctx.clip();
 		ctx.fillStyle = '#d2d233';
-		ctx.fillRect(0,200,400,150);			// 100% full
+		ctx.fillRect(0, 350-fill, 400, 0+fill);	// 100% full (start 200, end 350), 0
 		ctx.restore();
 
 		// draw falling sand
 		ctx.fillStyle = '#d2d233';
 		ctx.fillRect(193, 195, 14, 155);
 		ctx.restore();
-	 	degrees += 10;
-	 	if ( degrees > 180 ) clearInterval(animation180);
+	 	if ( rotate ) {
+	 		degrees += 10;
+	 		if ( degrees > 180 ) clearInterval(animation180);
+	 	}
+	 }
+
+// public functions
+	
+	return{
+	init: function(){
+		c = document.querySelector('#c');
+		//if ( !c.getContext ) error('no canvas'); return	// break script when canvas s not supported or can be found
+
+		// assign canvas context, and scale appropriately
+		ctx = c.getContext('2d');
+		ctx.scale(0.8,0.8);
+		ctx.translate(-15,-15);
+
+	 	this.updateWorkTime(25);
+	 	this.updateBreakTime(5);
+	 	render(0);
+	 	degrees = 0;
+
 	 },
+	error: function(message){
+		console.log(message);
+		// display error on screen 
+	},
 	startStop: function(){
 		function handleTimer(){
 			secondsPassed += 1;
+			render(secondsPassed);
 			console.log(secondsPassed);
 		}
+
 		console.log(secondsPassed);
 		if (!timerRunning) {
 			timerRunning = true;
@@ -132,16 +143,23 @@ var sandTimer = (function(){
 			timerRunning = false;
 			disableSliders(false);
 			window.clearInterval(loop)
-			secondsPassed = 0;
 		}
 		console.log(timerRunning);
 	 },
 	 updateWorkTime: function(value){
+	 	// when timer is paused, and sliders are adjusted, reset timer.
+	 	secondsPassed = 0;
+	 	//resetSand();
+
 	 	this.workTime = value;
 	 	return this.workTime;
 
 	 },
 	 updateBreakTime: function(value){
+	 	// when timer is paused, and sliders are adjusted, reset timer.
+	 	secondsPassed = 0;
+	 	//resetSand();
+
 	 	this.breakTime = value;
 		console.log(this.breakTime);		
 		return this.breakTime;
@@ -154,16 +172,6 @@ var sandTimer = (function(){
 
 $('#c').click(function(){
 	sandTimer.startStop();
-
-	//else window.clearInterval(timer); timer = null;
-	// first click, start the timer
-	//console.log(sandTimer.vars.degrees);
-	//degrees = 0;
-	//clearInterval(animation180);
-	//animation180 = window.setInterval(render, 50);
-
-	// 2nd click, pauze the timer
-
 });
 
 $('#wt').on('input', function(){
