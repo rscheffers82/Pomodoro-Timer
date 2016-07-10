@@ -11,40 +11,28 @@ var sandTimer = (function(){
 	var animation180;	// used stopping the timer, used when 
 	var workTime;
 	var breakTime;
-		
-	return{				// public functions
-	init: function(){
-		c = document.querySelector('#c');
-		//if ( !c.getContext ) error('no canvas'); return	// break script when canvas s not supported or can be found
-
-		// assign canvas context, and scale appropriately
-		ctx = c.getContext('2d');
-		ctx.scale(0.8,0.8);
-		ctx.translate(-15,-15);
-
-	 	this.updateWorkTime(25);
-	 	this.updateBreakTime(5);
-	 	this.render();
-	 	degrees = 0;
-
-	 },
-	 updateBreak: function(value){
-
-		// draw the timer for the first time and reset the degrees
-		sandTimer.render();
-		degrees = 0;
-	},
-	error: function(message){
-		console.log(message);
-		// display error on screen 
-	},
-	 clearCanvas: function(){
+	
+	var loop;
+	var secondsPassed = 0;
+	var timerRunning = false;
+	// private functions
+	var disableSliders = function(disable){
+	 	if(disable){
+	 		$('.choice').attr('disabled', true);
+	 		$('.choice').addClass('disabled');
+	 	} else {
+	 		$('.choice').attr('disabled', false);
+	 		$('.choice').removeClass('disabled');
+	 		console.log('disabled');
+	 	}
+	 }
+	 var clearCanvas = function(){
 		ctx.clearRect(0, 0, 400, 400);
 		ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
 		ctx.rotate(degrees * Math.PI / 180);
 		ctx.translate(-200, -200);
-	},
-	drawTop: function(lwidth, strokeStyle, fillStyle){
+	}
+	var drawTop = function(lwidth, strokeStyle, fillStyle){
 		ctx.lineWidth = lwidth;
 		ctx.strokeStyle = strokeStyle;
 		ctx.beginPath();
@@ -58,8 +46,8 @@ var sandTimer = (function(){
        		ctx.fill();
    		}
 		ctx.stroke();
-	},
-	drawBottom: function(lwidth, strokeStyle, fillStyle){
+	}
+	var drawBottom = function(lwidth, strokeStyle, fillStyle){
 		ctx.lineWidth = lwidth;
 		ctx.strokeStyle = strokeStyle;
 		ctx.beginPath();
@@ -76,14 +64,35 @@ var sandTimer = (function(){
 		// draw the opening	between the top and bottom
 		ctx.fillStyle = '#fafafc';
 		ctx.fillRect(186, 196, 28, 8);
+	}
+
+	return{				// public functions
+	init: function(){
+		c = document.querySelector('#c');
+		//if ( !c.getContext ) error('no canvas'); return	// break script when canvas s not supported or can be found
+
+		// assign canvas context, and scale appropriately
+		ctx = c.getContext('2d');
+		ctx.scale(0.8,0.8);
+		ctx.translate(-15,-15);
+
+	 	this.updateWorkTime(25);
+	 	this.updateBreakTime(5);
+	 	this.render();
+	 	degrees = 0;
+
+	 },
+	error: function(message){
+		console.log(message);
+		// display error on screen 
 	},
 	render: function(){
 		ctx.save();
 
-		this.clearCanvas();
+		clearCanvas();
 		// line thickness, stroke, fill
-		this.drawTop(10, '#222223');						// outer layer
-		this.drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
+		drawTop(10, '#222223');						// outer layer
+		drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
 		ctx.save();									// save state so we can go back to it after clipping
 
 		// draw sand in the top
@@ -92,8 +101,8 @@ var sandTimer = (function(){
 		ctx.fillRect(0,50,400,150);			// 100% full
 		ctx.restore();	
 
-		this.drawBottom(10, '#222223');
-		this.drawBottom(7, '#fafafc', '#fafafc');
+		drawBottom(10, '#222223');
+		drawBottom(7, '#fafafc', '#fafafc');
 		ctx.save();
 
 		// draw sand in the bottom
@@ -109,6 +118,24 @@ var sandTimer = (function(){
 	 	degrees += 10;
 	 	if ( degrees > 180 ) clearInterval(animation180);
 	 },
+	startStop: function(){
+		function handleTimer(){
+			secondsPassed += 1;
+			console.log(secondsPassed);
+		}
+		console.log(secondsPassed);
+		if (!timerRunning) {
+			timerRunning = true;
+			disableSliders(true);
+			loop = window.setInterval(handleTimer, 1000);
+		} else 	{ 
+			timerRunning = false;
+			disableSliders(false);
+			window.clearInterval(loop)
+			secondsPassed = 0;
+		}
+		console.log(timerRunning);
+	 },
 	 updateWorkTime: function(value){
 	 	this.workTime = value;
 	 	return this.workTime;
@@ -120,10 +147,15 @@ var sandTimer = (function(){
 		return this.breakTime;
 	 }}
 })();
+// practice area :)
+
 
 // event handlers
 
 $('#c').click(function(){
+	sandTimer.startStop();
+
+	//else window.clearInterval(timer); timer = null;
 	// first click, start the timer
 	//console.log(sandTimer.vars.degrees);
 	//degrees = 0;
@@ -131,6 +163,7 @@ $('#c').click(function(){
 	//animation180 = window.setInterval(render, 50);
 
 	// 2nd click, pauze the timer
+
 });
 
 $('#wt').on('input', function(){

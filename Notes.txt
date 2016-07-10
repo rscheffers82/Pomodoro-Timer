@@ -24,15 +24,25 @@ v understand how timers work
 - build UI
 	v slim timer
 	v input range set to 5 and 25 upon load
-	- empty top, fill bottom (functions)
+	- empty top, fill bottom (functions) vars needed + control functions		(3 hours)
+	v pause timer, disable slider bars											(1 hour)
 
-- determine structure in how to build the app
-	- build sandtimer component with functions to work it
-	model, view, viewmodel
-- copy all code to codepen
-- check cross browser compatibility
+v How to deal with the timer aspect :), should have done this from the start 	(3 hours)
 
 
+v determine structure in how to build the app
+	v build sandtimer component with functions to work it
+	x- model, view, viewmodel
+
+- Create overall color scheme													(2 hours)
+- Make the sandtimer look good, gradient on the Canvas 							(2 hours)
+- fancy sand animation?															(???)
+- copy all code to codepen														(30 min)
+- check cross browser compatibility												(30 min)
+- clean code check (html, css, js)												(30 min)
+- try to break the timer :)														(15 min)
+
+12 more hours to go
 
 === [ flow of the app ] ===
 - initialise the start state of the app

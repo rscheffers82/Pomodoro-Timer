@@ -90,6 +90,11 @@ canvas {
 
 /* Cross browser slider styling generated with http://danielstern.ca/range.css/?ref=css-tricks# */
 
+.disabled
+ {
+  cursor: not-allowed !important;
+}
+
 input[type=range].choice {
   -webkit-appearance: none;
   width: 300px;
