@@ -69,11 +69,12 @@ var sandTimer = (function(){
 		ctx.fillRect(186, 196, 28, 8);
 	}
 	var render = function(fill, rotate){
-		fill *= 1.5;	// 100% = 150 pixels on the canvas
-
+		console.log(fill);
+		clearCanvas();
 		ctx.save();
 
-		clearCanvas();
+		fill *= 1.5;								// 100% = 150 pixels on the canvas
+
 		// line thickness, stroke, fill
 		drawTop(10, '#222223');						// outer layer
 		drawTop(7, '#fafafc', '#fafafc');			// inner white layer, sand separator
@@ -95,10 +96,42 @@ var sandTimer = (function(){
 		ctx.fillRect(0, 350-fill, 400, 0+fill);	// 100% full (start 200, end 350), 0
 		ctx.restore();
 
-		// draw falling sand
+		// draw falling sand	
+		fill /= 1.5;
 		ctx.fillStyle = '#d2d233';
-		ctx.fillRect(193, 195, 14, 155);
+		if ( fill === 1 ){
+			console.log('fill 0');
+			var level = 0;
+			var fall = window.setInterval(fallingSand, 25);
+			function fallingSand(){
+				ctx.fillStyle = '#d2d233';
+				ctx.fillRect(193, 195, 14, level);
+				level += 5;
+				if ( level > 155 ) window.clearInterval(fall);
+			}
+		} else if ( fill >= 100 ){
+			window.clearInterval(loop);			// stop the timer
+			ctx.fillStyle = '#d2d233';
+			ctx.fillRect(193, 195, 14, 10);
+			var fall = window.setInterval(fallingSand, 200);
+			var level = 0;
+			function fallingSand(){
+				console.log('falling sand, level', level);
+				ctx.fillStyle = '#fafafc';
+				ctx.fillRect(193, 195, 14, level);
+				level++;
+				if ( level > 7 ) window.clearInterval(fall);
+			}
+			//	ctx.fillRect(193, 195, 14, 155);
+			console.log('fill 100');
+			//}
+		} else if ( fill > 1 && fill < 100 ) {
+			ctx.fillRect(193, 195, 14, 155);
+			console.log('fill ',fill);
+		}
+
 		ctx.restore();
+	 	
 	 	if ( rotate ) {
 	 		degrees += 10;
 	 		if ( degrees > 180 ) clearInterval(animation180);
@@ -124,17 +157,16 @@ var sandTimer = (function(){
 
 	 },
 	error: function(message){
-		console.log(message);
+		//console.log(message);
 		// display error on screen 
 	},
 	startStop: function(){
 		function handleTimer(){
 			secondsPassed += 1;
 			render(secondsPassed);
-			console.log(secondsPassed);
+			//console.log(secondsPassed);
 		}
 
-		console.log(secondsPassed);
 		if (!timerRunning) {
 			timerRunning = true;
 			disableSliders(true);
@@ -144,7 +176,7 @@ var sandTimer = (function(){
 			disableSliders(false);
 			window.clearInterval(loop)
 		}
-		console.log(timerRunning);
+		//console.log(timerRunning);
 	 },
 	 updateWorkTime: function(value){
 	 	// when timer is paused, and sliders are adjusted, reset timer.
@@ -161,7 +193,6 @@ var sandTimer = (function(){
 	 	//resetSand();
 
 	 	this.breakTime = value;
-		console.log(this.breakTime);		
 		return this.breakTime;
 	 }}
 })();
