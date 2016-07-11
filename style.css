@@ -1,20 +1,20 @@
-/* Stylesheet for ... App */
+/* Stylesheet for Pomodoro App */
+
+@import url(https://fonts.googleapis.com/css?family=Lora);
 
 body {
-  background-image: 
-    linear-gradient(#aaaaaa, #2222ff);
-  color: black;
+  background: url(images/ocean-sand-background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: Lora;
 }
 .wrapper {
   height: 100%;
   display: table;
   width: 100%;
   text-align: center;
-}
-.header {
-  display: table-row;
-  height: 1px;
-  background: #FFD34E;
 }
 .main {
   height: 100%;
@@ -24,10 +24,6 @@ body {
 .box {
   display: table-cell;
   color: #222223;
-}
-.sidebar {
-  width: 100px;
-  background: #BD4932;
 }
 
 .footer {
@@ -66,14 +62,16 @@ body {
 /* === Custom styling depending on the project === */ 
 
 .box{
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .timer-casing {
   margin: 0 auto;
-  background-color: rgba(239,239,255,0.3);
-  max-width: 400px;
+  background-color: #466365;
+  background-color: rgba(28, 65, 71,0.7);
+  max-width: 350px;
   max-height: 500px;
+  border-radius: 0px 30px 0px 30px;
 }
 
 .worktime,
@@ -83,13 +81,10 @@ body {
 
 .label{
   display: block;
-  font-size: 2em;
-  line-height: 1.5em;
-  color: #222223;
-}
+  font-size: 1.5em;
 
-canvas {
-  margin: 10px 0;
+  line-height: 1.5em;
+  color: #fafafc;
 }
 
 #time {
@@ -99,18 +94,17 @@ canvas {
   color: #222223;
 }
 
-/* Cross browser slider styling generated with http://danielstern.ca/range.css/?ref=css-tricks# */
-
-.disabled
- {
+.disabled {         /* Used to disable to range when the timer is running */
   cursor: not-allowed !important;
 }
 
+/* Cross browser slider styling generated with http://danielstern.ca/range.css/?ref=css-tricks# */
 input[type=range].choice {
   -webkit-appearance: none;
   width: 300px;
-  margin: 0 auto;
+  margin: 5px auto;
 }
+
 input[type=range].choice:focus {
   outline: none;
 }
@@ -118,41 +112,41 @@ input[type=range].choice::-webkit-slider-runnable-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
-  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 10px;
-  border: 1px solid #010101;
+  box-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0), 0px 0px 0.5px rgba(13, 13, 13, 0);
+  background: #fafafc;
+  border-radius: 0px;
+  border: 0.3px solid #010101;
 }
 input[type=range].choice::-webkit-slider-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  box-shadow: 0.5px 0.5px 2px #ffaaff, 0px 0px 0.5px #ffc3ff;
   border: 1px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 10px;
-  background: #ffffff;
+  height: 20px;
+  width: 7px;
+  border-radius: 3px;
+  background: #efd8ae;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -7.5px;
+  margin-top: -9.05px;
 }
 input[type=range].choice:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
+  background: #ffffff;
 }
 input[type=range].choice::-moz-range-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
-  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 10px;
-  border: 1px solid #010101;
+  box-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0), 0px 0px 0.5px rgba(13, 13, 13, 0);
+  background: #fafafc;
+  border-radius: 0px;
+  border: 0.3px solid #010101;
 }
 input[type=range].choice::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  box-shadow: 0.5px 0.5px 2px #ffaaff, 0px 0px 0.5px #ffc3ff;
   border: 1px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 10px;
-  background: #ffffff;
+  height: 20px;
+  width: 7px;
+  border-radius: 3px;
+  background: #efd8ae;
   cursor: pointer;
 }
 input[type=range].choice::-ms-track {
@@ -164,30 +158,30 @@ input[type=range].choice::-ms-track {
   color: transparent;
 }
 input[type=range].choice::-ms-fill-lower {
-  background: #2a6495;
-  border: 1px solid #010101;
-  border-radius: 20px;
-  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+  background: #eaeaf2;
+  border: 0.3px solid #010101;
+  border-radius: 0px;
+  box-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0), 0px 0px 0.5px rgba(13, 13, 13, 0);
 }
 input[type=range].choice::-ms-fill-upper {
-  background: #3071a9;
-  border: 1px solid #010101;
-  border-radius: 20px;
-  box-shadow: 1px 1px 2px #000000, 0px 0px 1px #0d0d0d;
+  background: #fafafc;
+  border: 0.3px solid #010101;
+  border-radius: 0px;
+  box-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0), 0px 0px 0.5px rgba(13, 13, 13, 0);
 }
 input[type=range].choice::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  box-shadow: 0.5px 0.5px 2px #ffaaff, 0px 0px 0.5px #ffc3ff;
   border: 1px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 10px;
-  background: #ffffff;
+  height: 20px;
+  width: 7px;
+  border-radius: 3px;
+  background: #efd8ae;
   cursor: pointer;
   height: 2px;
 }
 input[type=range].choice:focus::-ms-fill-lower {
-  background: #3071a9;
+  background: #fafafc;
 }
 input[type=range].choice:focus::-ms-fill-upper {
-  background: #367ebd;
+  background: #ffffff;
 }

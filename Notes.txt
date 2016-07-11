@@ -11,8 +11,6 @@ Level: Advanced
 - I can reset the clock for my next pomodoro.
 - I can customize the length of each pomodoro.
 
-=== { Notes before startingn } ===
-
 === { To-do list } ===
 
 v create flow of the app
@@ -30,78 +28,25 @@ v How to deal with the timer aspect :), should have done this from the start 	(3
 v determine structure in how to build the app
 	v build sandtimer component with functions to work it
 	x- model, view, viewmodel
-
+																				(estimate)
 v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) 
 v once done turn timer around, restart 											(3 hours)
 v fix dropping sand
-- Create overall color scheme													(2 hours)
-- Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
-- fancy sand animation?															(???)
-- copy all code to codepen														(30 min)
-- check cross browser compatibility												(30 min)
-- clean code check (html, css, js)												(30 min)
+v Create overall color scheme													(2 hours)
+x Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
+x fancy sand animation?															(???)
+v check cross browser compatibility, Firefox, Chrome, IE11						(30 min)
+v clean code check (html, css, js)												(30 min)
+v copy all code to codepen														(30 min)
 - try to break the timer :)														(15 min)
-
-12 more hours to go
-
-=== [ flow of the app ] ===
-- initialise the start state of the app
-- onclick timer turns and sand starts flowing
-- in the loop, top part goes down, bottom part goes up
-- full, timer automatically turns break time starts
-- if continues loop is on, the app loops back to the same trigger as the onclick event
-- else stop
-
-=== { Build notes } ===
-
-Initialise
-	worktime = 25 minutes (html)
-	breaktime = 5 minutes (html)
-	app vars are set
-	timer is drawn on the canvas, sand bottom.
-	awaiting click to start
-
-Click
-	disable the sliders
-	Sand timer is turned animation
-	Timer is started
-	Display the time remaining by bottom glass filling up.
-
-Click again
-	enable the sliders
-	Timer is stopped
-	* slider movement, reset the timer
-
-Reset
-	vars are cleared
-
-Layout
-	Rectangle screen 
-	circle in the middle, top, slowely walking and filling itself
-
-Fill-options
-	div, increasing / decreasing it's height
-	canvas drawing, circle
-
-resources:
-Only draw in a certani area using clip();
-usage:
-draw a shape, clip it.
-optional save the canvas state, ctx.save(); // paths are saved
-Anything that follows now is drawn only within the clipping area
-Source: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
 canvas tutorial from Mozilla developers
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+Clip: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing
 
-Animation of the timer
-
-User for user interaction (e.g. draw sand, user wants to stop)
-setInterval(function, delay)
-
-User the below for no user interaction:	(changing the sandTimer)
-requestAnimationFrame(callback)
-
-Technologies used
+=== [ Technologies used ] ===
 HTML Canvas
 HTML5, range and color inputs
+
+=== [ Known issues ] ===
+IE11, range on change not working, bell not played
