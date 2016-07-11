@@ -74,11 +74,8 @@ var sandTimer = (function(){
 	}
 
 	var render = function(fill, rotate){
-		//console.log('render - fill: ',fill);
-		if (fill < 10 ) {
-			console.log('workBreak: ', workBreak);
-			console.log('cycleEnd: ', cycleEnd);
-		}
+		console.log('render - fill: ',fill);
+
 		ctx.save();
 		clearCanvas();
 
@@ -105,6 +102,13 @@ var sandTimer = (function(){
 		ctx.fillRect(0, 350-fill, 400, 0+fill);	// 100% full (start 200, end 350), 0
 		ctx.restore();
 
+		ctx.save();
+		fill /= 1.5;
+		if ( fill > 1 && fill < 100 ) {
+			ctx.fillStyle = '#d2d233';
+			ctx.fillRect(193, 195, 14, 155);
+		}
+		ctx.restore();
 		// draw falling sand
 		/*	
 		fill /= 1.5;
