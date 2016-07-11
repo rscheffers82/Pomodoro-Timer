@@ -31,8 +31,8 @@ v determine structure in how to build the app
 	v build sandtimer component with functions to work it
 	x- model, view, viewmodel
 
-v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) - STUCK! 
-- once done turn timer around, restart
+v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) 
+- once done turn timer around, restart 											(3 hours) - STUCK!
 - Create overall color scheme													(2 hours)
 - Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
 - fancy sand animation?															(???)
@@ -105,14 +105,7 @@ Technologies used
 HTML Canvas
 HTML5, range and color inputs
 
+=== [ Turn attack plan ] ===
 
-draw function
-
-	//fillStyle = top;								// fill color for the upper part of the sand timer'#fafafc';
-	drawTop(7, '#2222aa', top, degrees);
-	drawTop(3, '#fafafc', top, degrees);
-	
-
-	//fillStyle = bottom;							// fill color for the bottom part of the sand timer //'#CBBD99';
-	drawBottom(7, '#2222aa', bottom, degrees);
-	drawBottom(3, '#fafafc', bottom, degrees);
+- make the timer work - start, pauze, 
+- work timer, start work, finish, start break, finish, start work

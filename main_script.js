@@ -5,20 +5,21 @@ $('document').ready(function(){
 });
 
 var sandTimer = (function(){
-	var c;				// canvas element
-	var ctx;			// canvas context
-	var degrees = 0;	// at what angle is the sand timer
-	var animation180;	// timer used for rotating the timer to it's start position 
-	var workTime;
-	var breakTime;
-	
-	var loop;			// timer, used for tracking time
-	var secondsPassed = 0;	
+	var c;					// canvas element
+	var ctx;				// canvas context
+
+	var workTime;			// work time in minutes
+	var breakTime;			// break time in minutes
+	var secondsPassed = 0;	// running count to keep track of work and break time
+	var degrees = 0;		// at what angle is the sand timer
 	var timerRunning = false;
+
+	var animation180;		// timer used for rotating the timer to it's start position 
+	var loop;				// timer, used for tracking time, work and break time
 	
 	// private functions
 	var disableSliders = function(disable){
-	 	if(disable){
+	 	if( disable ){
 	 		$('.choice').attr('disabled', true);
 	 		$('.choice').addClass('disabled');
 	 	} else {
@@ -155,6 +156,13 @@ var sandTimer = (function(){
 		if (fill === 100) startRotation();	 	
 	 }
 
+	 var resetTimer = function() {
+		if ( secondsPassed > 0 ) {
+			secondsPassed = 0;
+			render(0, false);
+		}
+	}
+
 // public functions
 	
 	return{
@@ -188,7 +196,7 @@ var sandTimer = (function(){
 		if (!timerRunning) {
 			timerRunning = true;
 			disableSliders(true);
-			loop = window.setInterval(handleTimer, 100);
+			loop = window.setInterval(handleTimer, 1000);		// 1 second interval
 		} else 	{ 
 			timerRunning = false;
 			disableSliders(false);
@@ -198,8 +206,7 @@ var sandTimer = (function(){
 	 },
 	 updateWorkTime: function(value){
 	 	// when timer is paused, and sliders are adjusted, reset timer.
-	 	secondsPassed = 0;
-	 	//resetSand();
+	 	resetTimer();
 
 	 	this.workTime = value;
 	 	return this.workTime;
@@ -207,8 +214,7 @@ var sandTimer = (function(){
 	 },
 	 updateBreakTime: function(value){
 	 	// when timer is paused, and sliders are adjusted, reset timer.
-	 	secondsPassed = 0;
-	 	//resetSand();
+	 	resetTimer();
 
 	 	this.breakTime = value;
 		return this.breakTime;
