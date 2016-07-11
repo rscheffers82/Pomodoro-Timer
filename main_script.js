@@ -8,14 +8,15 @@ var sandTimer = (function(){
 	var c;					// canvas element
 	var ctx;				// canvas context
 
-	var workTime;			// work time in minutes
-	var breakTime;			// break time in minutes
+	var workTime;			// time to work in minutes
+	var breakTime;			// time for break in minutes
+	var workBreak;			// in the work or break cycle
+	var timerRunning = false; // running work and break time or pauzed
 	var secondsPassed = 0;	// running count to keep track of work and break time
-	var degrees = 0;		// at what angle is the sand timer
-	var timerRunning = false;
-
-	var animation180;		// timer used for rotating the timer to it's start position 
 	var loop;				// timer, used for tracking time, work and break time
+
+	var degrees = 0;		// at what angle is the sand timer
+	var animation180;		// timer used for rotating the timer to it's start position 
 	
 	// private functions
 	var disableSliders = function(disable){
@@ -161,6 +162,7 @@ var sandTimer = (function(){
 			secondsPassed = 0;
 			render(0, false);
 		}
+		workBreak = 'work';
 	}
 
 // public functions
@@ -178,6 +180,7 @@ var sandTimer = (function(){
 	 	this.updateWorkTime(25);
 	 	this.updateBreakTime(5);
 	 	degrees = 0;
+	 	workBreak = 'work';
 	 	render(0, false);
 
 	 },
@@ -186,17 +189,19 @@ var sandTimer = (function(){
 		// display error on screen 
 	},
 	startStop: function(){
-		function handleTimer(){
-			secondsPassed += 1;
-			render(secondsPassed);
+		var x;
+		function handleTimer(){		
+			secondsPassed += 0.1;
+			if ( workBreak === 'work' ) x = ( secondsPassed / (60 * sandTimer.workTime) ) * 100;
+			if ( workBreak === 'break' )x = ( secondsPassed / (60 * sandTimer.breakTime) ) * 100;
 			
-
+			render( Math.round(x) );
 		}
 
 		if (!timerRunning) {
 			timerRunning = true;
 			disableSliders(true);
-			loop = window.setInterval(handleTimer, 1000);		// 1 second interval
+			loop = window.setInterval(handleTimer, 100);		// 0.5 second interval
 		} else 	{ 
 			timerRunning = false;
 			disableSliders(false);
