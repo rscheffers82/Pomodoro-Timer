@@ -10,13 +10,14 @@ var sandTimer = (function(){
 
 	var workTime;			// time to work in minutes
 	var breakTime;			// time for break in minutes
-	var workBreak;			// in the work or break cycle
-	var timerRunning = false; // running work and break time or pauzed
+	var workBreak;			// in which cycle are we? ('work' / 'break' values)
+	var cycleEnd;			// end of work or break time
+
+	var timerRunning = false; // used for pauzing the timer
 	var secondsPassed = 0;	// running count to keep track of work and break time
 	var loop;				// timer, used for tracking time, work and break time
 
 	var degrees = 0;		// at what angle is the sand timer
-	var animation180;		// timer used for rotating the timer to it's start position 
 	
 	// private functions
 	var disableSliders = function(disable){
@@ -31,7 +32,7 @@ var sandTimer = (function(){
 	 }
 
 	 var clearCanvas = function(){
-		console.log('clearCanvas - degrees: ', degrees);
+		//console.log('clearCanvas - degrees: ', degrees);
 		ctx.clearRect(0, 0, 400, 400);
 		ctx.translate(200, 200);						// go to the center of the canvas, x,y 200, 200.
 		ctx.rotate(degrees * Math.PI / 180);			// rotate depending on the timer
@@ -71,26 +72,15 @@ var sandTimer = (function(){
 		ctx.fillStyle = '#fafafc';
 		ctx.fillRect(186, 196, 28, 8);
 	}
-	var startRotation = function() {
-		animation180 = window.setInterval(turn, 250);
-
-		function turn() {
-			console.log('degrees: ', degrees);
-			if ( degrees > 180 ) {
-				clearInterval(animation180); 
-				degrees = 0; 
-				render(0, false);				// display the initial state of the timer
-			} else{
-				render(100, true);				// 100%, rotate set to true
-				degrees++;
-			}
-		}
-	}
 
 	var render = function(fill, rotate){
-		console.log(fill);
-		clearCanvas();
+		//console.log('render - fill: ',fill);
+		if (fill < 10 ) {
+			console.log('workBreak: ', workBreak);
+			console.log('cycleEnd: ', cycleEnd);
+		}
 		ctx.save();
+		clearCanvas();
 
 		fill *= 1.5;								// 100% = 150 pixels on the canvas
 
@@ -154,15 +144,60 @@ var sandTimer = (function(){
 		}
 */
 		ctx.restore();
-		if (fill === 100) startRotation();	 	
 	 }
 
-	 var resetTimer = function() {
-		if ( secondsPassed > 0 ) {
+	 var resetTimer = function() {	// used only once for imidiate reset when the sliders are used
+		if ( secondsPassed > 0 ) {  
 			secondsPassed = 0;
+			workBreak = 'work';
 			render(0, false);
 		}
-		workBreak = 'work';
+	}
+
+	var rotateTimer = function() {
+		var animation180 = window.setInterval(turn, 30);
+
+		function turn() {
+			//console.log('degrees: ', degrees);
+			if ( degrees >= 180 ) {
+				clearInterval(animation180); 
+				degrees = 0; 
+				render(0, false);				// display the initial state of the timer
+			} else{
+				render(100, true);				// 100%, rotate set to true
+				degrees += 5;
+			}
+		}
+	}
+
+	var switchStartBreak = function() {
+		console.log('switchStartBreak - workBreak: ', workBreak);
+		// rotate timer
+		rotateTimer();
+		
+		// reset core vars and alternate between work / break
+		workBreak = workBreak === 'work' ? 'break' : 'work';
+		cycleEnd = workBreak === 'work' ? workTime * 60 : breakTime * 60;
+		secondsPassed = 0;
+		//console.log('switchStartBreak - workBreak: ', workBreak);		//debug
+	}
+
+	function mainLoop(){		
+		// still time to go until the end?
+		if ( secondsPassed < cycleEnd ){
+			secondsPassed += 0.250 * 100;								// 250 milisecond interval
+			var sandLevel = Math.round( ( secondsPassed / cycleEnd ) * 100 );
+			render( sandLevel );
+		} else {
+			// end of the cycle, turn timer and start with the break
+			timerRunning = false;
+			window.clearInterval(loop)
+			switchStartBreak();
+			window.setTimeout(function(){ 
+				sandTimer.startStop(); 
+			}, 1000) // wait 1 sec for rotation to finish and restart the timer
+		}
+
 	}
 
 // public functions
@@ -181,57 +216,48 @@ var sandTimer = (function(){
 	 	this.updateBreakTime(5);
 	 	degrees = 0;
 	 	workBreak = 'work';
+		cycleEnd = workTime * 60; 	 	// assign cycle the work value
 	 	render(0, false);
-
 	 },
 	error: function(message){
 		//console.log(message);
 		// display error on screen 
 	},
 	startStop: function(){
-		var x;
-		function handleTimer(){		
-			secondsPassed += 0.1;
-			if ( workBreak === 'work' ) x = ( secondsPassed / (60 * sandTimer.workTime) ) * 100;
-			if ( workBreak === 'break' )x = ( secondsPassed / (60 * sandTimer.breakTime) ) * 100;
-			
-			render( Math.round(x) );
-		}
 
-		if (!timerRunning) {
+		if (!timerRunning) {			// start or continue
 			timerRunning = true;
 			disableSliders(true);
-			loop = window.setInterval(handleTimer, 100);		// 0.5 second interval
-		} else 	{ 
+			loop = window.setInterval(mainLoop, 250);		// 250 milisecond interval
+		} else 	{ 						// pauze
 			timerRunning = false;
 			disableSliders(false);
 			window.clearInterval(loop)
 		}
-		//console.log(timerRunning);
 	 },
 	 updateWorkTime: function(value){
 	 	// when timer is paused, and sliders are adjusted, reset timer.
 	 	resetTimer();
 
-	 	this.workTime = value;
-	 	return this.workTime;
+	 	workTime = value;
+	 	cycleEnd = value * 60;			// assign cycleEnd the work value as timer has been reset
+	 	return workTime;
 
 	 },
 	 updateBreakTime: function(value){
 	 	// when timer is paused, and sliders are adjusted, reset timer.
 	 	resetTimer();
 
-	 	this.breakTime = value;
-		return this.breakTime;
-	 }}
+	 	breakTime = value;
+		return breakTime;
+	 },
+	}
 })();
-// practice area :)
-
-
 // event handlers
 
 $('#c').click(function(){
 	sandTimer.startStop();
+	//sandTimer.rotateTimer();
 });
 
 $('#wt').on('input', function(){

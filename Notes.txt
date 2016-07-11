@@ -32,7 +32,8 @@ v determine structure in how to build the app
 	x- model, view, viewmodel
 
 v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) 
-- once done turn timer around, restart 											(3 hours) - STUCK!
+v once done turn timer around, restart 											(3 hours)
+- fix dropping sand
 - Create overall color scheme													(2 hours)
 - Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
 - fancy sand animation?															(???)
@@ -104,8 +105,3 @@ requestAnimationFrame(callback)
 Technologies used
 HTML Canvas
 HTML5, range and color inputs
-
-=== [ Turn attack plan ] ===
-
-- make the timer work - start, pauze, 
-- work timer, start work, finish, start break, finish, start work
