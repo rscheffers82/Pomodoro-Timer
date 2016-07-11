@@ -23,6 +23,7 @@ body {
 }
 .box {
   display: table-cell;
+  color: #222223;
 }
 .sidebar {
   width: 100px;
@@ -64,21 +65,31 @@ body {
 
 /* === Custom styling depending on the project === */ 
 
-.content{
+.box{
   vertical-align: top;
+}
+
+.timer-casing {
   margin: 0 auto;
+  background-color: rgba(239,239,255,0.3);
+  max-width: 400px;
+  max-height: 500px;
+}
+
+.worktime,
+.breaktime {
+  display: inline-block;
 }
 
 .label{
   display: block;
-  font-size: 1em;
+  font-size: 2em;
   line-height: 1.5em;
+  color: #222223;
 }
 
 canvas {
-  border: 1px solid #222223;
   margin: 10px 0;
-  border-radius: 0%;
 }
 
 #time {

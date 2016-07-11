@@ -33,7 +33,7 @@ v determine structure in how to build the app
 
 v Timer + empty top, fill bottom (functions) vars needed + control functions	(3 hours) 
 v once done turn timer around, restart 											(3 hours)
-- fix dropping sand
+v fix dropping sand
 - Create overall color scheme													(2 hours)
 - Make the sandtimer look good, gradient on the Canvas, or sand texture?		(2 hours)
 - fancy sand animation?															(???)
