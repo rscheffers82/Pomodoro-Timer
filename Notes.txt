@@ -38,7 +38,7 @@ x fancy sand animation?															(???)
 v check cross browser compatibility, Firefox, Chrome, IE11						(30 min)
 v clean code check (html, css, js)												(30 min)
 v copy all code to codepen														(30 min)
-- try to break the timer :)														(15 min)
+v try to break the timer :)														(15 min)
 
 canvas tutorial from Mozilla developers
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial

@@ -4,6 +4,9 @@
 
 body {
   background: url(images/ocean-sand-background.jpg) no-repeat center center fixed;
+  /* on codepen
+  background: url(https://raw.githubusercontent.com/rscheffers82/Pomodoro-Timer/master/images/ocean-sand-background.jpg) no-repeat center center fixed;
+  */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -81,8 +84,8 @@ body {
 
 .label{
   display: block;
+  padding: 10px 0;
   font-size: 1.5em;
-
   line-height: 1.5em;
   color: #fafafc;
 }
