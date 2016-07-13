@@ -64,6 +64,10 @@ body {
 
 /* === Custom styling depending on the project === */ 
 
+#c {
+  margin: -10px auto -15px auto;
+}
+
 .box{
   vertical-align: middle;
 }
@@ -75,6 +79,7 @@ body {
   max-width: 350px;
   max-height: 500px;
   border-radius: 0px 30px 0px 30px;
+  padding: 10px;
 }
 
 .worktime,
@@ -83,10 +88,9 @@ body {
 }
 
 .label{
-  display: block;
-  padding: 10px 0;
+  display: inline-block;
+  padding: 10px 20px;
   font-size: 1.5em;
-  line-height: 1.5em;
   color: #fafafc;
 }
 
@@ -97,6 +101,15 @@ body {
   color: #222223;
 }
 
+/* Animation */
+
+.active
+{
+   background-color: rgba(200, 200, 200, 0.3);
+   border-radius: 0 20px;
+   padding-top: 7px;
+}
+
 .disabled {         /* Used to disable to range when the timer is running */
   cursor: not-allowed !important;
 }
@@ -105,7 +118,7 @@ body {
 input[type=range].choice {
   -webkit-appearance: none;
   width: 300px;
-  margin: 5px auto;
+  margin: 7px auto;
 }
 
 input[type=range].choice:focus {

@@ -121,6 +121,8 @@ var sandTimer = (function(){
 	 var resetTimer = function() {	// used only once for imidiate reset when the sliders are used
 		if ( secondsPassed > 0 ) {  
 			secondsPassed = 0;
+			workBreak = '';
+			setActive();
 			workBreak = 'work';
 			render(0, false);
 		}
@@ -142,6 +144,19 @@ var sandTimer = (function(){
 		}
 	}
 
+	var setActive = function(){
+		if ( workBreak === 'work') {
+			$('.break').removeClass('active');
+			$('.work').addClass('active');
+		} else if (workBreak === 'break') {
+			$('.work').removeClass('active');
+			$('.break').addClass('active');
+		} else {
+			$('.work').removeClass('active');
+			$('.break').removeClass('active');
+		}
+	}
+
 	var switchStartBreak = function() {
 		rotateTimer();
 		
@@ -149,13 +164,16 @@ var sandTimer = (function(){
 		workBreak = workBreak === 'work' ? 'break' : 'work';
 		cycleEnd = workBreak === 'work' ? workTime * 60 : breakTime * 60;
 		secondsPassed = 0;
+		setActive();
 		//console.log('switchStartBreak - workBreak: ', workBreak);		//debug
+		// CSS styling for work or break
+
 	}
 
 	function mainLoop(){		
 		// still time to go until the end?
 		if ( secondsPassed < cycleEnd ){
-			secondsPassed += 0.250;								// 250 milisecond interval
+			secondsPassed += 0.250*1000;								// 250 milisecond interval
 			var sandLevel = ( secondsPassed / cycleEnd ) * 100;
 			render( sandLevel );
 		} else {
@@ -194,6 +212,7 @@ var sandTimer = (function(){
 		if (!timerRunning) {			// start or continue
 			timerRunning = true;
 			disableSliders(true);
+			setActive();
 			loop = window.setInterval(mainLoop, 250);		// 250 milisecond interval
 		} else 	{ 						// pauze
 			timerRunning = false;
