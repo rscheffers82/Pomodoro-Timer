@@ -109,9 +109,9 @@ var sandTimer = (function(){
 		// draw falling sand
 		ctx.save();
 		fill /= 1.5;
-		if ( fill > 0 && fill < 100 ) {
+		if ( timerRunning && fill > 0 && fill < 100 ) {
 			ctx.fillStyle = '#d2d233';
-			ctx.fillRect(193, 195, 14, 155);
+			ctx.fillRect(195, 195, 10, 155);
 		}
 		ctx.restore();
 
@@ -198,7 +198,10 @@ var sandTimer = (function(){
 		} else 	{ 						// pauze
 			timerRunning = false;
 			disableSliders(false);
-			window.clearInterval(loop)
+			// Time-out in 250 sec and stop the loop to draw the timer once more but now without the falling sand
+			window.setTimeout(function() {
+				window.clearInterval(loop)
+			}, 250);
 		}
 	 },
 	 updateWorkTime: function(value){
