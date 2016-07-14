@@ -173,7 +173,7 @@ var sandTimer = (function(){
 	function mainLoop(){		
 		// still time to go until the end?
 		if ( secondsPassed < cycleEnd ){
-			secondsPassed += 0.250*1000;								// 250 milisecond interval
+			secondsPassed += 0.250;								// 250 milisecond interval
 			var sandLevel = ( secondsPassed / cycleEnd ) * 100;
 			render( sandLevel );
 		} else {
